@@ -1,4 +1,5 @@
 // main.js - Lógica central para todo el sitio
+import { services, portfolio } from './assets.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     
@@ -14,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA PARA GENERAR TARJETAS DE SERVICIOS ---
     const servicesContainer = document.getElementById('services-container');
-    if (servicesContainer && typeof assets !== 'undefined' && assets.services) {
-        assets.services.forEach(service => {
+    if (servicesContainer) {
+        services.forEach(service => {
             // AHORA LA TARJETA ES UN ENLACE (<a>)
             const serviceCardLink = document.createElement('a');
             serviceCardLink.href = 'contact.html'; // Dirige a la página de contacto
@@ -32,8 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA PARA GENERAR TARJETAS DE PORTAFOLIO EN EL INICIO ---
     const portfolioPreviewContainer = document.getElementById('portfolio-preview');
-    if (portfolioPreviewContainer && typeof assets !== 'undefined' && assets.portfolio) {
-        assets.portfolio.slice(0, 2).forEach(project => {
+    if (portfolioPreviewContainer) {
+        portfolio.slice(0, 2).forEach(project => {
             const cardLink = document.createElement('a');
             cardLink.href = project.url;
             cardLink.className = 'portfolio-preview-card';
@@ -50,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA PARA GENERAR SERVICIOS EN EL INICIO ---
      const servicesPreviewContainer = document.getElementById('services-preview');
-    if (servicesPreviewContainer && typeof assets !== 'undefined' && assets.services) {
-        assets.services.slice(0, 3).forEach(service => {
+    if (servicesPreviewContainer) {
+        services.slice(0, 3).forEach(service => {
             const serviceCardLink = document.createElement('a');
             serviceCardLink.href = 'contact.html';
             serviceCardLink.className = 'skill-card';
@@ -64,4 +65,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
