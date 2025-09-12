@@ -1,4 +1,3 @@
-// main.js - Lógica central para todo el sitio
 import { services, portfolio } from './assets.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -17,11 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const servicesContainer = document.getElementById('services-container');
     if (servicesContainer) {
         services.forEach(service => {
-            // AHORA LA TARJETA ES UN ENLACE (<a>)
             const serviceCardLink = document.createElement('a');
-            serviceCardLink.href = 'contact.html'; // Dirige a la página de contacto
-            serviceCardLink.className = 'skill-card'; // Mantiene los mismos estilos
-
+            serviceCardLink.href = 'contact.html';
+            serviceCardLink.className = 'skill-card';
             serviceCardLink.innerHTML = `
                 <div class="skill-icon">${service.icon}</div>
                 <h4 class="skill-title">${service.title}</h4>
@@ -54,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (servicesPreviewContainer) {
         services.slice(0, 3).forEach(service => {
             const serviceCardLink = document.createElement('a');
-            serviceCardLink.href = 'contact.html';
+            serviceCardLink.href = 'services.html';
             serviceCardLink.className = 'skill-card';
             serviceCardLink.innerHTML = `
                 <div class="skill-icon">${service.icon}</div>

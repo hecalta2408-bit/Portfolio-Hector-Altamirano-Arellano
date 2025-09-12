@@ -48,15 +48,15 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="cliente_nombre">Nombre del cliente / Empresa</label>
-                            <input type="text" id="cliente_nombre" name="cliente_nombre" class="form-input" required>
+                            <input type="text" id="cliente_nombre" name="cliente_nombre" class="form-input" >
                         </div>
                         <div class="form-group">
                             <label for="cliente_contacto">Persona de contacto</label>
-                            <input type="text" id="cliente_contacto" name="cliente_contacto" class="form-input" required>
+                            <input type="text" id="cliente_contacto" name="cliente_contacto" class="form-input" >
                         </div>
                          <div class="form-group">
                             <label for="cliente_email">Correo electrónico</label>
-                            <input type="email" id="cliente_email" name="cliente_email" class="form-input" required>
+                            <input type="email" id="cliente_email" name="cliente_email" class="form-input" >
                         </div>
                          <div class="form-group">
                             <label for="cliente_telefono">Teléfono / WhatsApp</label>
@@ -105,13 +105,14 @@
                     <legend>5. Detalles del Servicio</legend>
                     <div class="form-group">
                         <label for="servicio_principal">Selecciona el servicio principal que necesitas</label>
-                        <select id="servicio_principal" name="servicio_principal" class="form-select" required>
+                        <select id="servicio_principal" name="servicio_principal" class="form-select" >
                             <option value="">-- Elige una opción --</option>
                             <option value="web">Diseño Web y Prototipado</option>
                             <option value="branding">Branding y Diseño de Identidad</option>
                             <option value="producto">Estrategia de Producto y Diseño UX/UI</option>
                             <option value="arquitectura">Diseño Arquitectónico y Visualización 3D</option>
                             <option value="packaging">Packaging Inteligente y Creativo</option>
+                            <option value="visualizacion">Visualización y Branding</option>
                         </select>
                     </div>
 
@@ -121,9 +122,31 @@
                     </div>
                 </fieldset>
 
-                 <!-- SECCIÓN 6: Consideraciones Finales -->
+                <!-- SECCIÓN 6: Servicio Adicional -->
                 <fieldset class="form-section">
-                    <legend>6. Consideraciones Finales</legend>
+                    <legend>6. Servicio Adicional (Opcional)</legend>
+                    <div class="form-group">
+                        <label for="servicio_adicional">¿Necesitas un servicio adicional?</label>
+                        <select id="servicio_adicional" name="servicio_adicional" class="form-select">
+                            <option value="">-- Elige una opción --</option>
+                            <option value="web">Diseño Web y Prototipado</option>
+                            <option value="branding">Branding y Diseño de Identidad</option>
+                            <option value="producto">Estrategia de Producto y Diseño UX/UI</option>
+                            <option value="arquitectura">Diseño Arquitectónico y Visualización 3D</option>
+                            <option value="packaging">Packaging Inteligente y Creativo</option>
+                            <option value="visualizacion">Visualización y Branding</option>
+                        </select>
+                    </div>
+                    <!-- Contenedor para preguntas dinámicas del servicio adicional -->
+                    <div id="dynamic-additional-questions-container">
+                        <!-- Las preguntas del servicio adicional se insertarán aquí con JS -->
+                    </div>
+                </fieldset>
+
+
+                 <!-- SECCIÓN 7: Consideraciones Finales -->
+                <fieldset class="form-section">
+                    <legend>7. Consideraciones Finales</legend>
                      <div class="form-group">
                         <label for="final_info">¿Hay algo más que debamos saber para que este proyecto sea un éxito?</label>
                         <textarea id="final_info" name="final_info" class="form-textarea"></textarea>
@@ -147,7 +170,7 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="./assets.js" type="module"></script>
+    <script src="./pdf-generator.js" type="module"></script>
     <script src="./brief-logic.js" type="module"></script>
 </body>
 </html>
-

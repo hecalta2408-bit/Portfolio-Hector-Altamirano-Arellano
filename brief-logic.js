@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const serviceSelect = document.getElementById('servicio_principal');
     const dynamicContainer = document.getElementById('dynamic-questions-container');
 
-    // --- Lógica para el formulario dinámico ---
+    const additionalServiceSelect = document.getElementById('servicio_adicional');
+    const dynamicAdditionalContainer = document.getElementById('dynamic-additional-questions-container');
+
+    // --- Lógica para el formulario dinámico del servicio principal ---
     serviceSelect.addEventListener('change', (event) => {
         const selectedService = event.target.value;
         dynamicContainer.innerHTML = ''; // Limpiar preguntas anteriores
@@ -25,6 +28,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `).join('');
             dynamicContainer.innerHTML = questionsHtml;
+        }
+    });
+
+    // --- Lógica para el formulario dinámico del servicio adicional ---
+    additionalServiceSelect.addEventListener('change', (event) => {
+        const selectedService = event.target.value;
+        dynamicAdditionalContainer.innerHTML = ''; // Limpiar preguntas anteriores
+
+        if (selectedService && briefQuestions[selectedService]) {
+            const questionsHtml = briefQuestions[selectedService].map(q => `
+                <div class="form-group">
+                    <label for="adicional_${q.id}">${q.label}</label>
+                    ${q.type === 'textarea'
+                        ? `<textarea id="adicional_${q.id}" name="adicional_${q.id}" class="form-textarea" placeholder="${q.placeholder || ''}"></textarea>`
+                        : `<input type="${q.type}" id="adicional_${q.id}" name="adicional_${q.id}" class="form-input" placeholder="${q.placeholder || ''}">`
+                    }
+                </div>
+            `).join('');
+            dynamicAdditionalContainer.innerHTML = questionsHtml;
         }
     });
 
@@ -53,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const pdfFileName = `Hector Altamirano-Brief #${uniqueId}.pdf`;
 
         try {
+            // Generar y descargar el PDF primero
             const pdfBlob = await generatePdf(data, logoBase64);
-
             const downloadUrl = URL.createObjectURL(pdfBlob);
             const a = document.createElement('a');
             a.href = downloadUrl;
@@ -63,48 +85,57 @@ document.addEventListener('DOMContentLoaded', () => {
             a.click();
             a.remove();
             URL.revokeObjectURL(downloadUrl);
-            
-            uploadToDrive(pdfBlob, pdfFileName);
+
+            // Una vez descargado, enviar a Google Drive
+            await uploadToDrive(pdfBlob, pdfFileName);
 
         } catch (error) {
-            console.error('Error al generar o descargar el PDF:', error);
-            alert('Hubo un error al generar tu PDF. Por favor, intenta de nuevo.');
+            console.error('Error en el proceso del brief:', error);
+            alert('Hubo un error al procesar tu brief. Por favor, revisa la consola para más detalles.');
+        } finally {
             spinner.style.display = 'none';
             submitButton.disabled = false;
         } 
     });
 
+    /**
+     * Sube un Blob de PDF a Google Drive a través de un Google Apps Script.
+     * @param {Blob} pdfBlob - El objeto Blob del PDF.
+     * @param {string} fileName - El nombre del archivo.
+     */
     async function uploadToDrive(pdfBlob, fileName) {
-        // ... (el resto de la función uploadToDrive se mantiene igual)
-        const reader = new FileReader();
-        reader.readAsDataURL(pdfBlob);
-        reader.onloadend = async () => {
-            const base64data = reader.result.split(',')[1];
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ8a49sg5oL-uRXlmKTP6DABamcPzqGVrlRqgCuwIlixGg492caGGoWHq2jqcB0uTa/exec'; 
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(pdfBlob);
 
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        fileName: fileName,
-                        fileContent: base64data
-                    })
-                });
-                const result = await response.json();
-                if (result.status === 'success') {
-                    console.log('Brief subido a Drive con éxito:', result.fileUrl);
-                    alert('¡Gracias! Tu brief ha sido enviado correctamente y una copia ha sido descargada.');
-                } else {
-                    throw new Error(result.message);
+            reader.onloadend = async () => {
+                const base64data = reader.result.split(',')[1];
+                // Sustituye esta URL por la URL de despliegue de tu Google Apps Script
+                const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQ8a49sg5oL-uRXlmKTP6DABamcPzqGVrlRqgCuwIlixGg492caGGoWHq2jqcB0uTa/exec'; 
+
+                try {
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            fileName: fileName,
+                            fileContent: base64data
+                        })
+                    });
+                    const result = await response.json();
+                    if (result.status === 'success') {
+                        console.log('Brief subido a Drive con éxito:', result.fileUrl);
+                        resolve(result);
+                    } else {
+                        reject(new Error(result.message || 'Error desconocido al subir a Drive.'));
+                    }
+                } catch (error) {
+                    console.error('Error al subir el archivo a Google Drive:', error);
+                    reject(error);
                 }
-            } catch (error) {
-                console.error('Error al subir el archivo a Google Drive:', error);
-                alert('Tu brief fue descargado, pero hubo un problema al enviarlo. Por favor, contáctame directamente.');
-            } finally {
-                spinner.style.display = 'none';
-                submitButton.disabled = false;
-            }
-        };
+            };
+            reader.onerror = (error) => {
+                reject(error);
+            };
+        });
     }
 });
-

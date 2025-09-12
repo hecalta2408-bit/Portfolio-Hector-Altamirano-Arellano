@@ -33,9 +33,9 @@ export async function generatePdf(data, logoBase64) {
     y += 60;
     
     // --- FUNCIÓN PARA AÑADIR SECCIONES Y PREGUNTAS ---
-    const addSection = (title, fields) => {
+    const addSection = (title, fields, prefix = '') => {
         // ... (Lógica para añadir secciones, similar a la versión anterior pero adaptada)
-        if (fields.every(field => !data[field.id])) return;
+        if (fields.every(field => !data[`${prefix}${field.id}`])) return;
 
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(12);
@@ -44,7 +44,8 @@ export async function generatePdf(data, logoBase64) {
         y += 25;
         
         fields.forEach(field => {
-            if (data[field.id]) {
+            const fieldId = `${prefix}${field.id}`;
+            if (data[fieldId]) {
                 doc.setFont('helvetica', 'normal');
                 doc.setFontSize(10);
                 doc.setTextColor(138, 138, 142);
@@ -53,7 +54,7 @@ export async function generatePdf(data, logoBase64) {
 
                 doc.setFontSize(11);
                 doc.setTextColor(29, 29, 31);
-                const splitText = doc.splitTextToSize(data[field.id], pageWidth - (margin * 2));
+                const splitText = doc.splitTextToSize(data[fieldId], pageWidth - (margin * 2));
                 doc.text(splitText, margin, y);
                 y += (doc.getTextDimensions(splitText).h) + 20;
             }
@@ -70,16 +71,23 @@ export async function generatePdf(data, logoBase64) {
       { id: 'proyecto_meta', label: 'Meta principal del proyecto:' },
       { id: 'publico_descripcion', label: 'Público objetivo:' },
       { id: 'competencia', label: 'Principales competidores:' },
-      { id: 'inspiracion', label: 'Inspiración:' }
+      { id: 'inspiracion', label: 'Inspiración:' },
     ];
     addSection('Información General y del Proyecto', generalQuestions);
     
-    // Añadir preguntas del servicio seleccionado
+    // Añadir preguntas del servicio principal
     if (data.servicio_principal && briefQuestions[data.servicio_principal]) {
-        addSection('Detalles Específicos del Servicio', briefQuestions[data.servicio_principal]);
+        addSection('Detalles Específicos del Servicio Principal', briefQuestions[data.servicio_principal]);
     }
 
+    // Añadir preguntas del servicio adicional
+    if (data.servicio_adicional && briefQuestions[data.servicio_adicional]) {
+        addSection('Detalles de Servicio Adicional', briefQuestions[data.servicio_adicional], 'adicional_');
+    }
+
+
     addSection('Consideraciones Finales', [{id: 'final_info', label: 'Información adicional:'}]);
+
 
     // --- FOOTER ---
     const footerY = pageHeight - 60;
@@ -100,4 +108,3 @@ export async function generatePdf(data, logoBase64) {
 
     return doc.output('blob');
 }
-

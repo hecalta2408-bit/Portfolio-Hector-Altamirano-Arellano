@@ -1,10 +1,8 @@
-// portfolio.js - Lógica exclusiva para la galería del portafolio
 import { portfolio } from './assets.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
     const portfolioGallery = document.getElementById('portfolio-gallery');
-    // Verificamos si estamos en la página de portafolio y si assets.js está cargado
     if (portfolioGallery) {
         portfolio.forEach(project => {
             const cardLink = document.createElement('a');
@@ -21,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
             portfolioGallery.appendChild(cardLink);
         });
     } else if (portfolioGallery) {
-        // Mensaje de error si los datos no cargan, útil para depurar.
         portfolioGallery.innerHTML = '<p>No se pudieron cargar los proyectos. Asegúrate de que assets.js esté enlazado correctamente antes que este script.</p>';
     }
 

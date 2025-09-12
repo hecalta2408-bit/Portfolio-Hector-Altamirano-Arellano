@@ -244,6 +244,7 @@ body {
     margin-bottom: 1.5rem;
     background: linear-gradient(45deg, var(--color-azul-estrategico), #9D4EDD);
     -webkit-background-clip: text;
+    background-clip: text; /* Añadido para compatibilidad */
     -webkit-text-fill-color: transparent;
     transition: transform 0.3s ease;
 }
@@ -626,13 +627,6 @@ body {
     margin-bottom: 0;
 }
 
-.form-section h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  color: var(--color-carbon);
-}
-
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -684,4 +678,3 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
