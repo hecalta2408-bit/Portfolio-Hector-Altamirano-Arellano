@@ -1,0 +1,687 @@
+/* -------------------------------------------------- */
+/* 1. CONFIGURACIÓN GLOBAL Y VARIABLES                */
+/* -------------------------------------------------- */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css');
+
+:root {
+  --color-lienzo: #FBFBFB;
+  --color-carbon: #1D1D1F;
+  --color-azul-estrategico: #0057FF;
+  --color-gris-arquitecto: #8A8A8E;
+  --color-azul-medianoche: #1D263B;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-lienzo);
+  color: var(--color-carbon);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* -------------------------------------------------- */
+/* 2. HEADER Y NAVEGACIÓN                             */
+/* -------------------------------------------------- */
+.header {
+  background-color: rgba(251, 251, 251, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4.5rem;
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+  text-decoration: none;
+}
+
+.nav-desktop {
+  display: none; /* Oculto en móvil por defecto */
+}
+
+.nav-link {
+  color: var(--color-gris-arquitecto);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+.nav-link:hover {
+  color: var(--color-azul-estrategico);
+}
+.nav-link-active {
+  color: var(--color-azul-estrategico);
+  font-weight: 600;
+}
+
+.cta-button {
+  background-color: var(--color-azul-medianoche);
+  color: var(--color-lienzo);
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+.cta-button:hover {
+  background-color: var(--color-azul-estrategico);
+}
+
+.mobile-menu-button {
+  display: block;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-carbon);
+}
+
+.mobile-menu {
+  display: none;
+  background-color: var(--color-lienzo);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.mobile-nav-link {
+  display: block;
+  padding: 1rem 1.5rem;
+  text-decoration: none;
+  color: var(--color-gris-arquitecto);
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (min-width: 768px) {
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .mobile-menu-button {
+    display: none;
+  }
+}
+
+/* -------------------------------------------------- */
+/* 3. ESTILOS GENERALES DE PÁGINA                     */
+/* -------------------------------------------------- */
+.main-content {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+.section-container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.page-subtitle {
+  font-size: 1.125rem;
+  color: var(--color-gris-arquitecto);
+  text-align: center;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background-color: var(--color-azul-estrategico);
+    margin: 0.75rem auto 0;
+}
+
+@media (min-width: 768px) {
+    .page-title {
+        font-size: 3.5rem;
+    }
+    .page-subtitle {
+        font-size: 1.25rem;
+    }
+}
+
+/* -------------------------------------------------- */
+/* 4. FOOTER                                          */
+/* -------------------------------------------------- */
+.footer {
+  background-color: var(--color-azul-medianoche);
+  color: var(--color-lienzo);
+  padding: 2rem 0;
+  text-align: center;
+}
+
+/* -------------------------------------------------- */
+/* 5. ESTILOS DE BOTONES Y CTAs                      */
+/* -------------------------------------------------- */
+.main-cta {
+  background-color: var(--color-azul-estrategico);
+  color: var(--color-lienzo);
+  padding: 1rem 2.5rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+.main-cta:hover {
+  background-color: var(--color-azul-medianoche);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+}
+.secondary-cta {
+    color: var(--color-azul-estrategico);
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid var(--color-azul-estrategico);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+.secondary-cta:hover {
+    background-color: var(--color-azul-estrategico);
+    color: var(--color-lienzo);
+}
+.section-cta-container {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* -------------------------------------------------- */
+/* 6. ESTILOS MEJORADOS PARA TARJETAS DE SERVICIO   */
+/* -------------------------------------------------- */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.skill-card {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+}
+
+.skill-icon {
+    display: inline-block;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(45deg, var(--color-azul-estrategico), #9D4EDD);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
+}
+.skill-card:hover .skill-icon {
+    transform: scale(1.1);
+}
+
+.skill-card .skill-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-carbon);
+    margin-bottom: 0.5rem;
+}
+
+.skill-card .skill-description {
+    color: var(--color-gris-arquitecto);
+    line-height: 1.6;
+}
+
+/* -------------------------------------------------- */
+/* 7. ESTILOS PARA PORTAFOLIO Y PROYECTOS             */
+/* -------------------------------------------------- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+.portfolio-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    height: 350px;
+    text-decoration: none;
+}
+.portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.portfolio-item:hover img {
+    transform: scale(1.05);
+}
+.portfolio-item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    padding: 2rem 1.5rem 1.5rem;
+    color: white;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+.portfolio-item:hover .portfolio-item-overlay {
+    transform: translateY(0);
+    opacity: 1;
+}
+.portfolio-item-overlay h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+.portfolio-item-overlay p {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+}
+
+/* -------------------------------------------------- */
+/* 8. ESTILOS PARA LA PÁGINA DE PERFIL (CORREGIDO)    */
+/* -------------------------------------------------- */
+
+.profile-hero {
+  background-color: white;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+.profile-hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+.profile-image-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  border: 5px solid var(--color-azul-estrategico);
+  flex-shrink: 0; /* Evita que la imagen se encoja */
+}
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.profile-hero-text {
+  text-align: center;
+  max-width: 600px;
+}
+.profile-summary {
+  font-size: 1.125rem;
+  color: var(--color-gris-arquitecto);
+  max-width: 42rem;
+  margin-top: 1.5rem;
+}
+/* Timeline */
+.timeline {
+  position: relative;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  background-color: #e5e7eb;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.timeline-item {
+  padding: 1rem 0;
+  position: relative;
+  width: 50%;
+  box-sizing: border-box;
+}
+.timeline-item:nth-child(odd) {
+  left: 0;
+  padding-right: 2.5rem;
+  text-align: right;
+}
+.timeline-item:nth-child(even) {
+  left: 50%;
+  padding-left: 2.5rem;
+}
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 4px solid var(--color-azul-estrategico);
+  top: 1.5rem;
+  border-radius: 50%;
+  z-index: 1;
+}
+.timeline-item:nth-child(odd)::after {
+  right: -10px;
+  transform: translateY(-50%);
+}
+.timeline-item:nth-child(even)::after {
+  left: -10px;
+  transform: translateY(-50%);
+}
+.timeline-content {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+}
+.timeline-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+.timeline-subtitle {
+    font-style: italic;
+    color: var(--color-gris-arquitecto);
+    margin-bottom: 0.75rem;
+}
+.education-section {
+    background-color: white;
+}
+.education-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    max-width: 48rem;
+    margin: 0 auto;
+}
+.education-card {
+    background-color: var(--color-lienzo);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+}
+
+@media (max-width: 767px) {
+  .profile-hero-container {
+      text-align: center;
+  }
+  .timeline::after {
+      left: 10px;
+  }
+  .timeline-item {
+      width: 100%;
+      padding-left: 2.5rem;
+      padding-right: 0;
+      text-align: left !important;
+  }
+  .timeline-item:nth-child(odd) {
+      left: 0;
+  }
+  .timeline-item:nth-child(even) {
+      left: 0;
+      padding-left: 2.5rem;
+  }
+  .timeline-item::after {
+      left: 1px;
+  }
+  .timeline-item:nth-child(odd)::after, .timeline-item:nth-child(even)::after {
+      left: 1px;
+      transform: translateY(-50%);
+  }
+}
+@media (min-width: 768px) {
+    .profile-hero-container {
+        flex-direction: row;
+        text-align: left;
+    }
+    .profile-hero-text {
+        text-align: left;
+    }
+    .education-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* -------------------------------------------------- */
+/* 9. ESTILOS PARA LA PÁGINA DE INICIO (HOME)        */
+/* -------------------------------------------------- */
+
+.home-hero {
+    position: relative;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+}
+
+.home-hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    transform: translateX(-50%) translateY(-50%);
+    object-fit: cover;
+}
+
+.home-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(29, 38, 59, 0.7); /* Azul de Medianoche con opacidad */
+}
+
+.home-hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.home-hero-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.home-hero-subtitle {
+    font-size: 1.25rem;
+    max-width: 48rem;
+    margin: 0 auto 2rem;
+    color: rgba(251, 251, 251, 0.9);
+}
+
+.portfolio-preview-section {
+    background-color: white;
+}
+.portfolio-preview-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+.portfolio-preview-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    height: 350px;
+}
+.portfolio-preview-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.portfolio-preview-card:hover img {
+    transform: scale(1.05);
+}
+.portfolio-preview-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    padding: 2rem 1.5rem 1.5rem;
+    color: white;
+}
+.portfolio-preview-overlay h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+@media (min-width: 768px) {
+    .home-hero-title {
+        font-size: 4rem;
+    }
+    .portfolio-preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* -------------------------------------------------- */
+/* 10. ESTILOS PARA CONTACTO Y BRIEF (NUEVO)        */
+/* -------------------------------------------------- */
+
+.content-box {
+  background-color: white;
+  padding: 2.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -2px rgba(0,0,0,0.05);
+  max-width: 48rem;
+  margin: 3rem auto 0;
+  text-align: center;
+}
+
+.content-box p {
+  color: var(--color-gris-arquitecto);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+/* --- Formulario del Brief --- */
+.brief-form-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -2px rgba(0,0,0,0.05);
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+    .brief-form-container {
+        padding: 3rem;
+    }
+}
+
+.form-section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.form-section h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--color-carbon);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--color-carbon);
+}
+
+.form-input, .form-textarea, .form-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--color-azul-estrategico);
+  box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.2);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+#spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: var(--color-lienzo);
+  animation: spin 1s ease-in-out infinite;
+  margin-left: 0.75rem;
+}
+#brief-form button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+

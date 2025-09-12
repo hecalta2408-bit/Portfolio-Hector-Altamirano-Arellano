@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brief Estratégico | Hector Altamirano</title>
+    
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header/Navegación -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">Hector Altamirano</a>
+            <nav class="nav-desktop">
+                <a href="profile.html" class="nav-link">Perfil</a>
+                <a href="services.html" class="nav-link">Servicios</a>
+                <a href="portfolio.html" class="nav-link">Portafolio</a>
+                <a href="contact.html" class="cta-button">Contacto</a>
+            </nav>
+            <button id="mobile-menu-button" class="mobile-menu-button">☰</button>
+        </div>
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="mobile-menu">
+             <a href="profile.html" class="mobile-nav-link">Perfil</a>
+            <a href="services.html" class="mobile-nav-link">Servicios</a>
+            <a href="portfolio.html" class="mobile-nav-link">Portafolio</a>
+            <a href="contact.html" class="mobile-nav-link">Contacto</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="container section-container">
+            <h2 class="section-title">Brief Estratégico del Proyecto</h2>
+            <p class="page-subtitle">Este es el primer paso para construir algo increíble juntos. Cuanto más detallada sea tu respuesta, mejor podré entender tu visión.</p>
+            
+            <form id="brief-form" class="brief-form-container">
+                
+                <!-- SECCIÓN 1: Información General -->
+                <fieldset class="form-section">
+                    <legend>1. Información General</legend>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="cliente_nombre">Nombre del cliente / Empresa</label>
+                            <input type="text" id="cliente_nombre" name="cliente_nombre" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente_contacto">Persona de contacto</label>
+                            <input type="text" id="cliente_contacto" name="cliente_contacto" class="form-input" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="cliente_email">Correo electrónico</label>
+                            <input type="email" id="cliente_email" name="cliente_email" class="form-input" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="cliente_telefono">Teléfono / WhatsApp</label>
+                            <input type="tel" id="cliente_telefono" name="cliente_telefono" class="form-input">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- SECCIÓN 2: Resumen del Proyecto -->
+                <fieldset class="form-section">
+                    <legend>2. Resumen del Proyecto y Metas</legend>
+                     <div class="form-group">
+                        <label for="proyecto_problema">¿Cuál es el problema principal o la necesidad que este proyecto busca resolver?</label>
+                        <textarea id="proyecto_problema" name="proyecto_problema" class="form-textarea"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="proyecto_meta">¿Cuál es la meta principal del proyecto? (Ej: Aumentar ventas, lanzar un nuevo producto)</label>
+                        <input type="text" id="proyecto_meta" name="proyecto_meta" class="form-input">
+                    </div>
+                </fieldset>
+
+                <!-- SECCIÓN 3: Público Objetivo -->
+                 <fieldset class="form-section">
+                    <legend>3. Público Objetivo</legend>
+                     <div class="form-group">
+                        <label for="publico_descripcion">¿A quién está dirigido el proyecto? (Describe a tu cliente ideal)</label>
+                        <textarea id="publico_descripcion" name="publico_descripcion" class="form-textarea"></textarea>
+                    </div>
+                </fieldset>
+
+                <!-- SECCIÓN 4: Competencia e Inspiración -->
+                 <fieldset class="form-section">
+                    <legend>4. Competencia e Inspiración</legend>
+                     <div class="form-group">
+                        <label for="competencia">¿Quiénes son tus principales competidores?</label>
+                        <textarea id="competencia" name="competencia" class="form-textarea"></textarea>
+                    </div>
+                     <div class="form-group">
+                        <label for="inspiracion">Marcas o proyectos que te sirvan de inspiración</label>
+                        <textarea id="inspiracion" name="inspiracion" class="form-textarea"></textarea>
+                    </div>
+                </fieldset>
+
+                <!-- SECCIÓN 5: Preguntas Específicas por Servicio -->
+                <fieldset class="form-section">
+                    <legend>5. Detalles del Servicio</legend>
+                    <div class="form-group">
+                        <label for="servicio_principal">Selecciona el servicio principal que necesitas</label>
+                        <select id="servicio_principal" name="servicio_principal" class="form-select" required>
+                            <option value="">-- Elige una opción --</option>
+                            <option value="web">Diseño Web y Prototipado</option>
+                            <option value="branding">Branding y Diseño de Identidad</option>
+                            <option value="producto">Estrategia de Producto y Diseño UX/UI</option>
+                            <option value="arquitectura">Diseño Arquitectónico y Visualización 3D</option>
+                            <option value="packaging">Packaging Inteligente y Creativo</option>
+                        </select>
+                    </div>
+
+                    <!-- Contenedor para preguntas dinámicas -->
+                    <div id="dynamic-questions-container">
+                        <!-- Las preguntas de cada servicio se insertarán aquí con JS -->
+                    </div>
+                </fieldset>
+
+                 <!-- SECCIÓN 6: Consideraciones Finales -->
+                <fieldset class="form-section">
+                    <legend>6. Consideraciones Finales</legend>
+                     <div class="form-group">
+                        <label for="final_info">¿Hay algo más que debamos saber para que este proyecto sea un éxito?</label>
+                        <textarea id="final_info" name="final_info" class="form-textarea"></textarea>
+                    </div>
+                </fieldset>
+
+
+                <button type="submit" class="main-cta">
+                    Enviar Brief y Generar PDF
+                    <span id="spinner"></span>
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Hector Altamirano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="./assets.js" type="module"></script>
+    <script src="./brief-logic.js" type="module"></script>
+</body>
+</html>
+
