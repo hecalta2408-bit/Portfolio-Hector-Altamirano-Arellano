@@ -10,6 +10,17 @@ export async function generatePdf(data, logoBase64) {
     const margin = 50;
     let y = 0;
 
+    // --- FUNCIÓN PARA AÑADIR UNA NUEVA PÁGINA ---
+    const addNewPage = () => {
+        doc.addPage();
+        y = margin; // Restablecer la posición Y al margen superior
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(138, 138, 142); // #8A8A8E
+        doc.text(`Nombre del Cliente: ${data.cliente_nombre || 'N/A'}`, margin, y);
+        y += 20;
+    };
+
     // --- HEADER ---
     doc.addImage(logoBase64, 'PNG', pageWidth - margin - 80, 40, 80, 80);
     y = 150;
@@ -34,6 +45,11 @@ export async function generatePdf(data, logoBase64) {
     
     // --- FUNCIÓN PARA AÑADIR SECCIONES Y PREGUNTAS ---
     const addSection = (title, fields, prefix = '') => {
+        // Verificar si la próxima sección cabe en la página actual
+        if (y + 50 > pageHeight - margin) {
+            addNewPage();
+        }
+
         // ... (Lógica para añadir secciones, similar a la versión anterior pero adaptada)
         if (fields.every(field => !data[`${prefix}${field.id}`])) return;
 
@@ -55,8 +71,17 @@ export async function generatePdf(data, logoBase64) {
                 doc.setFontSize(11);
                 doc.setTextColor(29, 29, 31);
                 const splitText = doc.splitTextToSize(data[fieldId], pageWidth - (margin * 2));
-                doc.text(splitText, margin, y);
-                y += (doc.getTextDimensions(splitText).h) + 20;
+                
+                splitText.forEach(line => {
+                    // Verificar si la línea actual excede el límite
+                    if (y + 15 > pageHeight - margin) {
+                        addNewPage();
+                    }
+                    doc.text(line, margin, y);
+                    y += 15; // Incrementar Y por la altura de la línea
+                });
+                
+                y += 20; // Espacio entre preguntas
             }
         });
         y += 20;
@@ -104,7 +129,6 @@ export async function generatePdf(data, logoBase64) {
     doc.setTextColor(138, 138, 142);
     const footerText = `México, Estado de México | colaboración Nexura EC\n(56) 6386-8189 | aleare2458@gmail.com`;
     doc.text(footerText, pageWidth - margin, footerY + 20, { align: 'right' });
-
 
     return doc.output('blob');
 }
