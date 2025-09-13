@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Financiera | Diseño UX/UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --color-background: #F8F9FA;
+            --color-surface: #FFFFFF;
+            --color-primary: #3366FF;
+            --color-secondary-text: #6C757D;
+            --color-main-text: #212529;
+            --color-success: #28A745;
+            --color-danger: #DC3545;
+            --color-accent-1: #FFC107;
+            --color-accent-2: #17A2B8;
+            --color-accent-3: #6F42C1;
+            --border-radius-lg: 1.25rem;
+            --border-radius-md: 0.75rem;
+            --box-shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --box-shadow-md: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-main-text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* HEADER */
+        .header {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            box-shadow: var(--box-shadow-sm);
+            border-bottom: 1px solid #e9ecef;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+        }
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--color-main-text);
+            text-decoration: none;
+        }
+        .nav-desktop {
+            display: none;
+            gap: 1.8rem;
+        }
+        .nav-link {
+            color: var(--color-secondary-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: var(--color-primary);
+        }
+        .cta-button {
+            background-color: var(--color-primary);
+            color: var(--color-surface);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius-md);
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #2a5ddb;
+        }
+        .mobile-menu-button {
+            display: block;
+            font-size: 1.4rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--color-main-text);
+        }
+        .mobile-menu {
+            display: none;
+            background-color: var(--color-surface);
+            box-shadow: var(--box-shadow-sm);
+        }
+        .mobile-nav-link {
+            display: block;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            color: var(--color-secondary-text);
+            border-top: 1px solid #e9ecef;
+        }
+        @media (min-width: 768px) {
+            .nav-desktop { display: flex; }
+            .mobile-menu-button { display: none; }
+        }
+
+        /* HERO SECTION */
+        .project-hero {
+            position: relative;
+            background: linear-gradient(115deg, var(--color-primary), #1a49a9);
+            color: var(--color-surface);
+            min-height: 30vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding: 3rem 1.5rem;
+        }
+        .project-hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            letter-spacing: -0.02em;
+        }
+        .project-hero p {
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* MOCKUP CAROUSEL - Centrado y con más espacio */
+        .device-mockups-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: -7rem;
+            z-index: 10;
+            position: relative;
+            height: 750px; /* Altura ajustada para centrar el teléfono */
+            perspective: 1000px;
+        }
+        .device {
+            width: 320px;
+            height: 640px;
+            background-color: #F3F4F6;
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
+            padding: 1.2rem;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1;
+        }
+        .device-screen {
+            background-color: var(--color-app-bg);
+            width: 100%;
+            height: 100%;
+            border-radius: 2rem;
+            overflow: visible;
+            position: relative;
+            border: 2px solid #DDDDDD;
+        }
+        .app-screen {
+            padding: 1.2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 90%;
+            opacity: 0;
+            transform: scale(0.95) translateY(15px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+            color: var(--color-main-text);
+        }
+        .app-screen-active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .nav-buttons {
+            position: absolute;
+            bottom: -2.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+            width: 100%;
+        }
+        .nav-buttons .dot {
+            width: 10px;
+            height: 10px;
+            background-color: #000000;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .nav-buttons .dot.active {
+            background-color: var(--color-primary);
+            transform: scale(1.3);
+        }
+
+        /* ESTILOS GENERALES DE PANTALLA DE LA APP */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        .app-header .title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--color-main-text);
+        }
+        .app-header .icon {
+            font-size: 1.3rem;
+            color: var(--color-secondary-text);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .app-header .icon:hover {
+            color: var(--color-main-text);
+        }
+
+        .card {
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--box-shadow-sm);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .card-large-amount {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--color-main-text);
+            line-height: 1;
+        }
+        .card-label {
+            font-size: 0.85rem;
+            color: var(--color-background);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .text-small {
+            font-size: 0.8rem;
+            color: var(--color-secondary-text);
+        }
+
+        /* Dashboard */
+        .dashboard-main-balance {
+            background: linear-gradient(135deg, var(--color-primary), #6F42C1);
+            color: var(--color-surface);
+            padding: 2rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--box-shadow-md);
+            transition: transform 0.3s ease;
+        }
+        .dashboard-main-balance:hover {
+            transform: translateY(-5px);
+        }
+        .dashboard-main-balance .amount {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .dashboard-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        .dashboard-action-button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-surface);
+            padding: 1rem 0.5rem;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--box-shadow-sm);
+            text-decoration: none;
+            color: var(--color-surface);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .dashboard-action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .dashboard-action-button .icon {
+            font-size: 1.6rem;
+            color: var(--color-primary);
+            margin-bottom: 0.4rem;
+        }
+        .dashboard-action-button .label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-secondary-text);
+        }
+        .section-title-small {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--color-main-text);
+        }
+
+        /* Lista de Transacciones */
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #E9ECEF;
+        }
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+        .transaction-info {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .transaction-icon-wrapper {
+            font-size: 1.1rem;
+            width: 36px;
+            height: 36px;
+            background-color: #E9ECEF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-secondary-text);
+        }
+        .transaction-details {
+            display: flex;
+            flex-direction: column;
+        }
+        .transaction-details .name {
+            font-weight: 500;
+            color: var(--color-main-text);
+        }
+        .transaction-details .date {
+            font-size: 0.75rem;
+            color: var(--color-secondary-text);
+        }
+        .transaction-amount {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .transaction-amount.income { color: var(--color-success); }
+        .transaction-amount.expense { color: var(--color-danger); }
+
+        /* Análisis de Gastos */
+        .chart-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            height: 230px; /* Ajuste para un mejor aspecto del gráfico */
+        }
+        .chart-card canvas {
+            max-height: 100%;
+            max-width: 100%;
+        }
+        .chart-info {
+            font-size: 0.65rem;
+            color: var(--color-secondary-text);
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .chart-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--color-main-text);
+            margin-bottom: 0.8rem;
+            text-align: center;
+        }
+
+        /* Metas de Ahorro */
+        .savings-summary-card {
+            background: linear-gradient(135deg, var(--color-primary), #4E2E8F);
+            color: var(--color-surface);
+            padding: 2rem 1.5rem;
+            border-radius: var(--border-radius-lg);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--box-shadow-md);
+            transition: transform 0.3s ease;
+        }
+        .savings-summary-card:hover {
+            transform: translateY(-5px);
+        }
+        .savings-summary-card .amount {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .goal-item {
+            background-color: var(--color-surface);
+            border-radius: var(--border-radius-md);
+            padding: 1.2rem;
+            margin-bottom: 0.8rem;
+            box-shadow: var(--box-shadow-sm);
+            transition: transform 0.2s;
+        }
+        .goal-item:hover {
+            transform: translateY(-3px);
+        }
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .goal-name {
+            font-weight: 600;
+            color: var(--color-main-text);
+        }
+        .goal-amount-progress {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--color-secondary-text);
+        }
+        .progress-bar-container {
+            background-color: #E9ECEF;
+            height: 6px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background-color: #6F42C1;
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease-in-out;
+        }
+
+        /* Perfil de Usuario */
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-top: 1rem;
+        }
+        .profile-icon {
+            font-size: 80px; /* Cambia el valor al tamaño que desees */
+            color: slateblue; /* Opcional: para cambiar el color del ícono */
+        }
+        
+        .profile-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-main-text);
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+        .profile-email {
+            font-size: 0.85rem;
+            color: var(--color-secondary-text);
+        }
+        .profile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid #E9ECEF;
+            color: var(--color-main-text);
+            transition: background-color 0.2s;
+        }
+        .profile-menu-item:hover {
+            background-color: #F3F4F6;
+        }
+        .profile-menu-item .icon {
+            font-size: 1.4rem;
+            color: var(--color-primary);
+        }
+        .profile-menu-item span {
+            font-weight: 500;
+        }
+        .logout-button {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .logout-button .icon {
+            color: var(--color-danger);
+        }
+
+        /* Notificaciones */
+        .notification-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #E9ECEF;
+        }
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+        .notification-icon-wrapper {
+            font-size: 1.2rem;
+            color: var(--color-primary);
+            flex-shrink: 0;
+            padding-top: 0.2rem;
+        }
+        .notification-content {
+            flex-grow: 1;
+        }
+        .notification-title {
+            font-weight: 600;
+            color: var(--color-main-text);
+            margin-bottom: 0.2rem;
+        }
+        .notification-message {
+            font-size: 0.85rem;
+            color: var(--color-secondary-text);
+        }
+        .notification-date {
+            font-size: 0.75rem;
+            color: var(--color-secondary-text);
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        /* Sección de contenido general del portafolio */
+        .section-container {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--color-main-text);
+        }
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--color-secondary-text);
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .skill-card {
+            background-color: var(--color-surface);
+            padding: 2rem;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--box-shadow-sm);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--box-shadow-md);
+        }
+        .skill-icon {
+            font-size: 2.5rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+        .skill-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--color-main-text);
+        }
+        .skill-description {
+            font-size: 0.95rem;
+            color: var(--color-secondary-text);
+        }
+        .section-cta-container {
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+        .secondary-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .secondary-cta:hover {
+            color: #2a5ddb;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: var(--color-main-text);
+            color: var(--color-secondary-text);
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive para el mockup en pantallas pequeñas */
+        @media (max-width: 768px) {
+            .device-mockups-container {
+                margin-top: 2rem;
+                height: auto;
+                perspective: none;
+            }
+            .device {
+                transform: none !important;
+                margin-bottom: 2rem;
+            }
+            .app-screen {
+                padding: 1rem 0.8rem;
+            }
+            .dashboard-main-balance .amount {
+                font-size: 2.2rem;
+            }
+            .savings-summary-card .amount {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">Hector Altamirano</a>
+            <nav class="nav-desktop">
+                <a href="profile.html" class="nav-link">Sobre Mí</a>
+                <a href="services.html" class="nav-link">Servicios</a>
+                <a href="portfolio.html" class="nav-link">Portafolio</a>
+                <a href="contact.html" class="cta-button">Contacto</a>
+            </nav>
+            <button id="mobile-menu-button" class="mobile-menu-button">☰</button>
+        </div>
+        <div id="mobile-menu" class="mobile-menu">
+            <a href="profile.html" class="mobile-nav-link">Sobre Mí</a>
+            <a href="services.html" class="mobile-nav-link">Servicios</a>
+            <a href="portfolio.html" class="mobile-nav-link">Portafolio</a>
+            <a href="contact.html" class="mobile-nav-link">Contacto</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <section class="project-hero">
+            <div class="project-hero-content">
+                <h1>App Financiera: UX/UI Design</h1>
+                <p>Una experiencia de usuario simple e intuitiva para gestionar tus finanzas personales de forma inteligente.</p>
+            </div>
+        </section>
+
+        <div class="device-mockups-container">
+            <div id="mockup-container" class="device">
+                <div id="device-screen" class="device-screen">
+                    </div>
+            </div>
+            <div class="nav-buttons">
+                <span class="dot active" data-index="0"></span>
+                <span class="dot" data-index="1"></span>
+                <span class="dot" data-index="2"></span>
+                <span class="dot" data-index="3"></span>
+                <span class="dot" data-index="4"></span>
+                <span class="dot" data-index="5"></span>
+            </div>
+        </div>
+
+        <section class="container section-container">
+            <h2 class="section-title">El Desafío UX/UI</h2>
+            <p class="page-subtitle">El reto fue crear una interfaz minimalista y moderna que hiciera de la gestión financiera una experiencia simple, segura y visualmente agradable para los usuarios. El diseño se enfoca en la usabilidad, la claridad de los datos y una navegación fluida.</p>
+        </section>
+
+        <section class="container section-container" style="background-color: var(--color-surface);">
+            <h2 class="section-title">Funcionalidades Clave</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fas fa-chart-line skill-icon"></i>
+                    <h4 class="skill-title">Dashboard Intuitivo</h4>
+                    <p class="skill-description">Visualización rápida de saldos y movimientos con un solo vistazo. Diseñado para que la información más importante esté al alcance de la mano.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-credit-card skill-icon"></i>
+                    <h4 class="skill-title">Gestión de Gastos</h4>
+                    <p class="skill-description">Categorización automática de transacciones y análisis de gastos para ayudar a los usuarios a tomar decisiones financieras más informadas.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-piggy-bank skill-icon"></i>
+                    <h4 class="skill-title">Herramientas de Ahorro</h4>
+                    <p class="skill-description">Módulos que permiten a los usuarios establecer metas de ahorro y monitorear su progreso con gráficos sencillos.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-cta-container">
+             <a href="portfolio.html" class="secondary-cta"><i class="fas fa-arrow-left"></i> Volver al Portafolio</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Hector Altamirano. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+                });
+            }
+
+            const screens = [
+                // Pantalla 1: Dashboard principal
+                `
+                <div class="app-header">
+                    <span class="title">Hola, Hector</span>
+                    <i class="fas fa-bell icon"></i>
+                </div>
+                <div class="dashboard-main-balance">
+                    <span class="card-label">Saldo Disponible</span>
+                    <span class="amount">$8,945.<small>00</small></span>
+                </div>
+                <div class="dashboard-actions-grid">
+                    <a href="#" class="dashboard-action-button">
+                        <i class="fas fa-arrow-up icon"></i>
+                        <span class="label">Enviar</span>
+                    </a>
+                    <a href="#" class="dashboard-action-button">
+                        <i class="fas fa-arrow-down icon"></i>
+                        <span class="label">Recibir</span>
+                    </a>
+                    <a href="#" class="dashboard-action-button">
+                        <i class="fas fa-wallet icon"></i>
+                        <span class="label">Cargar</span>
+                    </a>
+                </div>
+                <div class="card">
+                    <div class="section-title-small">Movimientos Recientes</div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon-wrapper"><i class="fas fa-store"></i></div>
+                            <div class="transaction-details">
+                                <span class="name">Tienda de Comestibles</span>
+                                <span class="date">12 de Sep, 14:30</span>
+                            </div>
+                        </div>
+                        <span class="transaction-amount expense">-$55.20</span>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon-wrapper"><i class="fas fa-university"></i></div>
+                            <div class="transaction-details">
+                                <span class="name">Salario Mensual</span>
+                                <span class="date">10 de Sep, 09:00</span>
+                            </div>
+                        </div>
+                        <span class="transaction-amount income">+$1,500.00</span>
+                    </div>
+                </div>
+                `,
+                // Pantalla 2: Análisis de Gastos (corregida)
+                `
+                <div class="app-header">
+                    <span class="title">Análisis de Gastos</span>
+                    <i class="fas fa-chart-pie icon"></i>
+                </div>
+                <div class="card chart-card">
+                    <div class="chart-title">Gastos por Categoría</div>
+                    <div style="width: 80%; max-width: 150px;">
+                        <canvas id="expensesChart"></canvas>
+                    </div>
+                    <div class="chart-info">
+                        <span style="color: #0000FF;">•</span> Alimentos (40%) <span style="color: #4169E1;">•</span> Transporte (25%) <br>
+                        <span style="color: #4B0082;">•</span> Entretenimiento (20%) <span style="color: #8A2BE2;">•</span> Otros (15%)
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="section-title-small">Resumen Mensual</div>
+                    <p class="text-small">Tu gasto promedio es de $500 por semana.</p>
+                    <p class="text-small">¡Excelente gestión de tus finanzas este mes!</p>
+                </div>
+                `,
+                // Pantalla 3: Metas de Ahorro
+                `
+                <div class="app-header">
+                    <span class="title">Metas de Ahorro</span>
+                    <i class="fas fa-plus icon"></i>
+                </div>
+                <div class="savings-summary-card">
+                    <span class="card-label">Total Ahorrado para Metas</span>
+                    <span class="amount">$3,200.<small>00</small></span>
+                </div>
+                <div class="section-title-small">Mis Metas</div>
+                <div class="goal-item">
+                    <div class="goal-header">
+                        <span class="goal-name">Vacaciones en Cancún</span>
+                        <span class="goal-amount-progress">$3,000 / $4,000</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <div class="goal-item">
+                    <div class="goal-header">
+                        <span class="goal-name">Nuevo Ordenador</span>
+                        <span class="goal-amount-progress">$800 / $2,000</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: 40%;"></div>
+                    </div>
+                </div>
+                `,
+                // Pantalla 4: Todas las transacciones
+                `
+                <div class="app-header">
+                    <span class="title">Todas las Transacciones</span>
+                    <i class="fas fa-filter icon"></i>
+                </div>
+                <div class="card">
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon-wrapper"><i class="fas fa-store"></i></div>
+                            <div class="transaction-details">
+                                <span class="name">Tienda de Comestibles</span>
+                                <span class="date">12 de Sep, 14:30</span>
+                            </div>
+                        </div>
+                        <span class="transaction-amount expense">-$55.20</span>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon-wrapper"><i class="fas fa-university"></i></div>
+                            <div class="transaction-details">
+                                <span class="name">Salario Mensual</span>
+                                <span class="date">10 de Sep, 09:00</span>
+                            </div>
+                        </div>
+                        <span class="transaction-amount income">+$1,500.00</span>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon-wrapper"><i class="fas fa-film"></i></div>
+                            <div class="transaction-details">
+                                <span class="name">Netflix</span>
+                                <span class="date">9 de Sep, 20:00</span>
+                            </div>
+                        </div>
+                        <span class="transaction-amount expense">-$15.99</span>
+                    </div>
+                    <div class="transaction-item">
+                        <div class="transaction-info">
+                            <div class="transaction-icon-wrapper"><i class="fas fa-gas-pump"></i></div>
+                            <div class="transaction-details">
+                                <span class="name">Gasolinera Pemex</span>
+                                <span class="date">8 de Sep, 11:15</span>
+                            </div>
+                        </div>
+                        <span class="transaction-amount expense">-$45.00</span>
+                    </div>
+                </div>
+                `,
+                // Pantalla 5: Notificaciones
+                `
+                <div class="app-header">
+                    <span class="title">Notificaciones</span>
+                    <i class="fas fa-check-double icon"></i>
+                </div>
+                <div class="card">
+                    <div class="notification-item">
+                        <div class="notification-icon-wrapper"><i class="fas fa-credit-card"></i></div>
+                        <div class="notification-content">
+                            <div class="notification-title">Nuevo Gasto</div>
+                            <div class="notification-message">Se ha realizado un gasto de $55.20 en Tienda de Comestibles.</div>
+                        </div>
+                        <div class="notification-date">hace 5 min</div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon-wrapper"><i class="fas fa-piggy-bank"></i></div>
+                        <div class="notification-content">
+                            <div class="notification-title">Meta de Ahorro</div>
+                            <div class="notification-message">¡Felicidades! Has ahorrado el 75% para tus vacaciones.</div>
+                        </div>
+                        <div class="notification-date">hace 1 día</div>
+                    </div>
+                    <div class="notification-item">
+                        <div class="notification-icon-wrapper"><i class="fas fa-bell"></i></div>
+                        <div class="notification-content">
+                            <div class="notification-title">Alerta de Presupuesto</div>
+                            <div class="notification-message">Estás a punto de superar tu presupuesto mensual de Entretenimiento.</div>
+                        </div>
+                        <div class="notification-date">hace 3 días</div>
+                    </div>
+                </div>
+                `,
+                // Pantalla 6: Perfil de usuario
+                `
+                <div class="app-header">
+                    <span class="title">Perfil</span>
+                    <i class="fas fa-cog icon"></i>
+                </div>
+                <div class="card profile-info">
+                    <i class="fas fa-user-circle profile-icon"></i>
+                     <span class="profile-name">Hector Altamirano</span>
+                     <span class="profile-email">hector.a@mail.com</span>
+                </div>
+                <div class="card">
+                    <div class="profile-menu-item"><i class="fas fa-user icon"></i> <span>Editar Perfil</span></div>
+                    <div class="profile-menu-item"><i class="fas fa-lock icon"></i> <span>Seguridad y Privacidad</span></div>
+                    <div class="profile-menu-item"><i class="fas fa-question-circle icon"></i> <span>Centro de Ayuda</span></div>
+                    <div class="profile-menu-item logout-button"><i class="fas fa-sign-out-alt icon"></i> <span>Cerrar Sesión</span></div>
+                </div>
+                `
+            ];
+
+            const mockupContainer = document.getElementById('mockup-container');
+            const navDots = document.querySelectorAll('.nav-buttons .dot');
+            let currentScreen = 0;
+            let autoRotateInterval;
+
+            const screenElement = document.createElement('div');
+            screenElement.className = 'app-screen';
+            mockupContainer.querySelector('.device-screen').appendChild(screenElement);
+
+            function showScreen(index) {
+                const activeScreen = mockupContainer.querySelector('.app-screen-active');
+                if (activeScreen) {
+                    activeScreen.classList.remove('app-screen-active');
+                }
+
+                screenElement.innerHTML = screens[index];
+                setTimeout(() => {
+                    screenElement.classList.add('app-screen-active');
+                    if (index === 1) {
+                        initChart();
+                    }
+                }, 50);
+
+                navDots.forEach(dot => dot.classList.remove('active'));
+                navDots[index].classList.add('active');
+            }
+
+            function initChart() {
+                const ctx = document.getElementById('expensesChart');
+                if (ctx) {
+                    const data = {
+                        labels: ['Alimentos', 'Transporte', 'Entretenimiento', 'Otros'],
+                        datasets: [{
+                            data: [40, 25, 20, 15],
+                            backgroundColor: [
+                                '#0000FF',
+                                '#4169E1',
+                                '#4B0082',
+                                '#8A2BE2'
+                            ],
+                            hoverOffset: 4
+                        }]
+                    };
+                    const config = {
+                        type: 'doughnut',
+                        data: data,
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%',
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.label}: ${context.parsed}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    };
+                    new Chart(ctx, config);
+                }
+            }
+
+            function rotateScreens() {
+                currentScreen = (currentScreen + 1) % screens.length;
+                showScreen(currentScreen);
+            }
+
+            function startAutoRotate() {
+                autoRotateInterval = setInterval(rotateScreens, 5000);
+            }
+
+            function stopAutoRotate() {
+                clearInterval(autoRotateInterval);
+            }
+
+            navDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    stopAutoRotate();
+                    const index = parseInt(dot.dataset.index);
+                    showScreen(index);
+                    startAutoRotate();
+                });
+            });
+
+            showScreen(currentScreen);
+            startAutoRotate();
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>

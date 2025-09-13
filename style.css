@@ -176,6 +176,7 @@ body {
   color: var(--color-lienzo);
   padding: 2rem 0;
   text-align: center;
+  margin-top: 0;
 }
 
 /* -------------------------------------------------- */
@@ -211,7 +212,8 @@ body {
 }
 .section-cta-container {
     text-align: center;
-    margin-top: 3rem;
+    padding-top: 4rem; /* Añadido espacio superior para separar del contenido */
+    padding-bottom: 4rem; /* Añadido espacio inferior para separar del footer */
 }
 
 /* -------------------------------------------------- */
@@ -677,4 +679,117 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* -------------------------------------------------- */
+/* 11. ESTILOS ESPECÍFICOS PARA PROYECTOS             */
+/* -------------------------------------------------- */
+.project-hero {
+    position: relative;
+    min-height: 70vh; /* Se cambió height por min-height para mejor flexibilidad */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.project-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 0;
+    object-position: center 90%;
+}
+
+.project-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(29, 38, 59, 0.6);
+    z-index: 1;
+}
+
+.project-hero-content {
+    position: relative;
+    color: white;
+    z-index: 2;
+    padding: 0 1.5rem;
+}
+
+.project-title {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.project-subtitle {
+  font-size: 1.25rem;
+  max-width: 48rem;
+  margin: 0 auto;
+  color: rgba(251, 251, 251, 0.9);
+}
+
+.project-details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.project-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.project-visuals-section {
+    background-color: var(--color-lienzo);
+    padding: 4rem 0;
+}
+.visual-identity-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.visual-item {
+    text-align: center;
+}
+.visual-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.05);
+}
+.visual-item h4 {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.solo-image-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 1.5rem;
+  text-align: center;
+}
+.solo-image-container img {
+  width: 100%;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+}
+
+@media (min-width: 768px) {
+  .project-details-grid {
+      grid-template-columns: repeat(2, 1fr);
+  }
+  .visual-identity-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pepsico | Proyecto de Portafolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- VARIABLES GLOBALES Y ESTILOS BASE --- */
+        :root {
+            --color-primary: #004287;
+            --color-secondary: #0076a8;
+            --color-dark: #1A1A1A;
+            --color-light: #F8F9FA;
+            --color-text-main: #343a40;
+            --color-text-light: #6c757d;
+            --font-heading: 'Poppins', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--font-body); color: var(--color-text-main); background-color: #fff; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+        /* --- HEADER --- */
+        .header { background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); position: fixed; top: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .logo { 
+            font-family: var(--font-heading); font-size: 1.8rem; font-weight: 700; 
+            color: var(--color-primary); text-decoration: none; display: flex; 
+            align-items: center; gap: 0.5rem; /* Espacio entre logo y texto */
+        }
+        .logo img {
+            height: 40px; /* Tamaño del logo */
+            width: auto;
+        }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { color: var(--color-dark); text-decoration: none; font-weight: 500; padding: 0.5rem 0; position: relative; transition: color 0.3s; }
+        .nav-links a:not(.portfolio-link)::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background-color: var(--color-primary); transition: width 0.3s ease; }
+        .nav-links a.active, .nav-links a:hover { color: var(--color-primary); }
+        .nav-links a.active::after, .nav-links a:hover:not(.portfolio-link)::after { width: 100%; }
+        .portfolio-link { background-color: var(--color-primary); color: #fff !important; padding: 0.5rem 1rem !important; border-radius: 50px; font-weight: 500; transition: background-color 0.3s, transform 0.3s; display: flex; align-items: center; gap: 0.5rem; }
+        .portfolio-link:hover { background-color: var(--color-dark); transform: translateY(-2px); }
+
+        /* --- HERO SECTION --- */
+        .hero { height: 100vh; background: url('https://images.unsplash.com/photo-1621980005708-3f5f3e956795?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover; display: flex; justify-content: center; align-items: center; text-align: center; color: #fff; position: relative; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.6); }
+        .hero-content { position: relative; z-index: 1; padding: 1rem; }
+        .hero-content h1 { font-family: var(--font-heading); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
+        .hero-content p { font-size: clamp(1rem, 2vw, 1.5rem); max-width: 800px; margin: 0 auto 2rem; }
+        .cta-button { display: inline-block; background-color: var(--color-secondary); color: #fff; padding: 1rem 2.5rem; border-radius: 50px; text-decoration: none; font-weight: 700; transition: background-color 0.3s ease, transform 0.3s ease; }
+        .cta-button:hover { background-color: var(--color-primary); transform: translateY(-5px); }
+
+        /* --- SECCIÓN GENERAL --- */
+        .section { padding: 6rem 0; }
+        .section-heading { font-family: var(--font-heading); font-size: 2.8rem; font-weight: 700; text-align: center; margin-bottom: 4rem; }
+        
+        /* --- CARRUSEL DE NOTICIAS CON FLECHAS --- */
+        #featured-products { padding-top: 6rem; background: var(--color-light); }
+        .carousel-wrapper { position: relative; }
+        .featured-carousel { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 2rem; padding: 1rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; scroll-behavior: smooth; }
+        .featured-carousel::-webkit-scrollbar { display: none; }
+        .featured-card { flex: 0 0 320px; height: 450px; position: relative; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.15); transition: transform 0.4s ease; scroll-snap-align: start; }
+        .featured-card:hover { transform: translateY(-10px); }
+        .featured-card-bg { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .featured-card:hover .featured-card-bg { transform: scale(1.1); }
+        .featured-card-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; color: #fff; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 2; }
+        .featured-card-content h3 { font-family: var(--font-heading); font-size: 2rem; margin-bottom: 0.5rem; }
+        .featured-card-content button { background: var(--color-secondary); color: #fff; border: none; padding: 0.6rem 1.2rem; border-radius: 50px; cursor: pointer; font-weight: 600; margin-top: 1rem; transition: background-color 0.3s; }
+        .featured-card-content button:hover { background-color: var(--color-primary); }
+        .carousel-arrow {
+            position: absolute; top: 50%; transform: translateY(-50%); background-color: rgba(255, 255, 255, 0.9); color: var(--color-dark); border: none; border-radius: 50%; width: 50px; height: 50px; font-size: 1.5rem; cursor: pointer; z-index: 10; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease; display: none; /* Ocultas por defecto */
+        }
+        .carousel-arrow:hover { background-color: var(--color-primary); color: #fff; }
+        #scroll-left { left: -25px; }
+        #scroll-right { right: -25px; }
+        @media (min-width: 1024px) { .carousel-arrow { display: block; } /* Muestra flechas en escritorio */ }
+
+        /* --- PARRILLA DE PRODUCTOS --- */
+        #products-list { background-color: #fff; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .product-list-card { position: relative; height: 380px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; color: #fff; text-align: left; background-size: cover; background-position: center; }
+        .product-list-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1)); z-index: 1; transition: background 0.3s ease; }
+        .product-list-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .product-list-card h4 { position: relative; z-index: 2; font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 0.5rem; }
+
+        /* --- ESTILOS GENERALES PARA PÁGINAS DE DETALLE (PRODUCTOS Y NOTICIAS) --- */
+        .page-content-wrapper { padding: 120px 0 60px 0; min-height: 100vh; background-color: var(--color-light); }
+        .page-content-wrapper .container { max-width: 900px; background-color: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 3rem; }
+        .page-content-wrapper h1 { font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 800; margin-bottom: 1.5rem; color: var(--color-primary); text-align: center; }
+        .page-content-wrapper h2 { font-family: var(--font-heading); font-size: 2rem; margin-top: 2rem; margin-bottom: 1rem; color: var(--color-primary); }
+        .page-content-wrapper p, .page-content-wrapper ul { font-size: 1.1rem; color: var(--color-text-light); margin-bottom: 1.5rem; line-height: 1.8; }
+        .page-content-wrapper ul { list-style: inside; padding-left: 1rem; }
+        .page-content-wrapper li { margin-bottom: 0.5rem; }
+
+        .product-page { display: none; animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- ESTILO 1: PÁGINAS DE PRODUCTO ESTÁNDAR --- */
+        .product-page-standard .product-page-layout { display: flex; flex-direction: column; align-items: center; position: relative; gap: 2rem; }
+        .product-page-standard .product-page-image { flex: 1; z-index: 10; max-width: 250px; }
+        .product-page-standard .product-page-image img { width: 100%; height: auto; max-height: 50vh; object-fit: contain; filter: drop-shadow(0 20px 25px rgba(0,0,0,0.25)); transform: rotate(-10deg); transition: transform 0.5s ease; }
+        .product-page-standard:hover .product-page-image img { transform: rotate(0deg) scale(1.05); }
+        .product-page-standard .product-page-description { flex: 1.5; background-color: #fff; border-radius: 20px; padding: 3rem; padding-left: 4rem; box-shadow: 0 15px 40px rgba(0,0,0,0.1); position: relative; width: 100%; }
+        .product-page-standard .product-page-description h2 { font-family: var(--font-heading); font-size: clamp(3rem, 8vw, 5rem); font-weight: 800; margin-bottom: 1rem; color: var(--color-primary); line-height: 1; text-align: left; }
+        .product-page-standard .product-page-description .tagline { font-size: 1.2rem; font-weight: 500; color: var(--color-secondary); margin-bottom: 1.5rem; display: block; }
+        .product-page-standard .product-page-description p { font-size: 1.1rem; color: var(--color-text-light); max-width: 600px; margin-bottom: 2rem; }
+        
+        @media (min-width: 768px) {
+            .product-page-standard .product-page-layout { flex-direction: row; align-items: stretch; }
+            .product-page-standard .product-page-image { max-width: 400px; }
+            .product-page-standard .product-page-description { padding: 4rem; padding-left: 6rem; }
+        }
+        @media (min-width: 1024px) {
+            .product-page-standard .product-page-layout { gap: 0; }
+            .product-page-standard .product-page-image { margin-right: -50px; }
+        }
+        
+        /* --- ESTILO 2: PÁGINAS TIPO NOTICIA/CAMPAÑA --- */
+        .product-page-news .news-header { height: 60vh; width: 100%; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; color: #fff; }
+        .product-page-news .news-header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent 80%); }
+        .news-title-container { position: relative; z-index: 2; padding: 3rem; }
+        .news-title-container h2 { font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; font-weight: 800; max-width: 800px; }
+        .news-content { background-color: #fff; padding: 4rem 2rem; max-width: 800px; margin: -5rem auto 0 auto; position: relative; z-index: 3; border-radius: 10px; box-shadow: 0 -5px 30px rgba(0,0,0,0.1); }
+        .news-meta { color: var(--color-text-light); margin-bottom: 2rem; display: flex; gap: 1rem; }
+        .news-body p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; }
+
+        /* --- ESTILO CONTACTO --- */
+        #contacto { padding: 120px 0 60px 0; background-color: var(--color-light); }
+        .contact-content { display: flex; flex-direction: column; gap: 2rem; }
+        .contact-form-wrapper { background-color: #fff; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); padding: 3rem; flex: 1; }
+        .contact-form label { display: block; font-weight: 500; margin-bottom: 0.5rem; color: var(--color-text-main); }
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%; padding: 0.8rem 1rem; margin-bottom: 1.5rem; border: 1px solid #ced4da;
+            border-radius: 8px; font-family: var(--font-body); font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 0.2rem rgba(0, 66, 135, 0.25);
+        }
+        .contact-form textarea { min-height: 120px; resize: vertical; }
+        .contact-form button {
+            background-color: var(--color-secondary); color: #fff; padding: 1rem 2.5rem;
+            border-radius: 50px; border: none; font-weight: 700; cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .contact-form button:hover { background-color: var(--color-primary); transform: translateY(-3px); }
+
+        .contact-info { flex: 1; display: flex; flex-direction: column; gap: 1.5rem; }
+        .contact-info p { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 0.5rem; font-size: 1rem; }
+        .contact-info p i { font-size: 1.5rem; color: var(--color-primary); margin-top: 3px; }
+        .contact-map { flex: 1; min-height: 300px; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .contact-map iframe { width: 100%; height: 100%; border: 0; }
+        
+        @media (min-width: 768px) {
+            .contact-content { flex-direction: row; }
+            .contact-info { margin-top: 0; }
+        }
+
+        /* --- BOTÓN DE VOLVER (COMPARTIDO) --- */
+        .back-button { display: inline-flex; align-items: center; gap: 0.5rem; background-color: var(--color-secondary); color: #fff; padding: 0.8rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 500; transition: background-color 0.3s ease, transform 0.3s ease; margin-top: 2rem; }
+        .back-button:hover { background-color: var(--color-primary); transform: translateY(-3px); }
+
+        /* --- FOOTER --- */
+        .footer { background-color: var(--color-dark); color: var(--color-light); padding: 5rem 0 2rem 0; font-size: 0.9rem; }
+        .footer a { color: var(--color-light); text-decoration: none; transition: color 0.3s ease; }
+        .footer a:hover { color: var(--color-secondary); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 3rem; text-align: left; }
+        .footer-column .logo { 
+            color: #fff; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;
+            font-size: 1.2rem; /* Ajusta el tamaño del texto del logo en el footer si es necesario */
+        }
+        .footer-column .logo img {
+            height: 30px; /* Tamaño del logo en el footer */
+            width: auto;
+        }
+        .footer-column h4 { font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 1rem; font-weight: 600; }
+        .footer-column ul { list-style: none; padding: 0; }
+        .footer-column ul li { margin-bottom: 0.75rem; }
+        .social-links a { font-size: 1.5rem; margin-right: 1rem; }
+        .footer-bottom { border-top: 1px solid #444; padding-top: 2rem; text-align: center; color: var(--color-text-light); }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <nav class="navbar container">
+            <a href="#home" class="logo main-nav-link">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/PepsiCo_logo.svg/2000px-PepsiCo_logo.svg.png" alt="PepsiCo Logo"
+            </a>
+            <div class="nav-links">
+                <a href="./portfolio.html" class="portfolio-link"><i class="fas fa-arrow-left"></i> Volver al Portafolio</a>
+                <a href="#featured-products" class="main-nav-link">Novedades</a>
+                <a href="#products-list" class="main-nav-link">Productos</a>
+                <a href="#contacto" class="main-nav-link">Contacto</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1>Nutriendo Vidas, Creando Experiencias.</h1>
+                <p>Descubre el sabor del futuro con nuestro portafolio de marcas y nuestro compromiso con el planeta.</p>
+                <a href="#featured-products" class="cta-button">Ver Novedades</a>
+            </div>
+        </section>
+        
+        <section id="featured-products" class="section">
+            <div class="container">
+                <h2 class="section-heading">Últimas Campañas</h2>
+                <div class="carousel-wrapper">
+                    <button id="scroll-left" class="carousel-arrow"><i class="fa-solid fa-chevron-left"></i></button>
+                    <div class="featured-carousel">
+                        <div class="featured-card">
+                            <img src="https://images.unsplash.com/photo-1543253671-5511a42f24aa?q=80&w=1887" alt="Ambiente Pepsi" class="featured-card-bg">
+                            <div class="featured-card-content"><h3>Pepsi</h3><p>Nueva campaña global Zero Azúcar.</p><button data-page-id="noticia-pepsi">Leer más</button></div>
+                        </div>
+                        <div class="featured-card">
+                            <img src="https://images.unsplash.com/photo-1613919113643-27c10b7d73d2?q=80&w=1887" alt="Ambiente Lay's" class="featured-card-bg">
+                            <div class="featured-card-content"><h3>Lay's</h3><p>Celebrando a nuestros agricultores.</p><button data-page-id="noticia-lays">Leer más</button></div>
+                        </div>
+                        <div class="featured-card">
+                            <img src="https://images.unsplash.com/photo-1551804368-7681f2a04a64?q=80&w=1887" alt="Ambiente Gatorade" class="featured-card-bg">
+                            <div class="featured-card-content"><h3>Gatorade</h3><p>Potenciando a la nueva generación.</p><button data-page-id="noticia-gatorade">Leer más</button></div>
+                        </div>
+                        <div class="featured-card">
+                            <img src="https://images.unsplash.com/photo-1599442658887-1454c5a357f8?q=80&w=1887" alt="Ambiente Doritos" class="featured-card-bg">
+                            <div class="featured-card-content"><h3>Doritos</h3><p>El snack oficial del gaming.</p><button data-page-id="noticia-doritos">Leer más</button></div>
+                        </div>
+                        <div class="featured-card">
+                            <img src="https://images.unsplash.com/photo-1595295333158-4742f28fbd85?q=80&w=1980" alt="Ambiente Quaker" class="featured-card-bg">
+                            <div class="featured-card-content"><h3>Quaker</h3><p>La energía que necesitas para empezar.</p><button data-page-id="noticia-quaker">Leer más</button></div>
+                        </div>
+                    </div>
+                    <button id="scroll-right" class="carousel-arrow"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <section id="products-list" class="section">
+            <div class="container">
+                <h2 class="section-heading">Nuestro Portafolio Completo</h2>
+                <div class="products-grid">
+                    <div class="product-list-card" data-page-id="producto-pepsi" style="background-image: url('https://i.ibb.co/hK4B51j/pepsi-can.png');"><h4>Pepsi</h4></div>
+                    <div class="product-list-card" data-page-id="producto-lays" style="background-image: url('https://i.ibb.co/5MGk1xS/lays-bag.png');"><h4>Lay's</h4></div>
+                    <div class="product-list-card" data-page-id="producto-gatorade" style="background-image: url('https://i.ibb.co/L9jM11q/gatorade-bottle.png');"><h4>Gatorade</h4></div>
+                    <div class="product-list-card" data-page-id="producto-doritos" style="background-image: url('https://i.ibb.co/8Yj0gVw/doritos-bag.png');"><h4>Doritos</h4></div>
+                    <div class="product-list-card" data-page-id="producto-quaker" style="background-image: url('https://i.ibb.co/sW2hP5x/quaker-oats.png');"><h4>Quaker</h4></div>
+                    <div class="product-list-card" data-page-id="cheetos" style="background-image: url('https://i.ibb.co/yQd4kSg/cheetos-bag.png');"><h4>Cheetos</h4></div>
+                    <div class="product-list-card" data-page-id="tropicana" style="background-image: url('https://i.ibb.co/R4g7z3x/tropicana-carton.png');"><h4>Tropicana</h4></div>
+                    <div class="product-list-card" data-page-id="7up" style="background-image: url('https://i.ibb.co/k2V3kC7/7up-can.png');"><h4>7UP</h4></div>
+                    <div class="product-list-card" data-page-id="lipton" style="background-image: url('https://i.ibb.co/hLq0s9B/lipton-bottle.png');"><h4>Lipton</h4></div>
+                    <div class="product-list-card" data-page-id="aquafina" style="background-image: url('https://i.ibb.co/GtncW5G/aquafina-bottle.png');"><h4>Aquafina</h4></div>
+                    <div class="product-list-card" data-page-id="mountaindew" style="background-image: url('https://i.ibb.co/dGtC0jK/mountaindew-can.png');"><h4>Mtn Dew</h4></div>
+                    <div class="product-list-card" data-page-id="starbucks" style="background-image: url('https://i.ibb.co/k3kC5g6/starbucks-bottle.png');"><h4>Starbucks</h4></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="section">
+            <div class="container">
+                <h2 class="section-heading">Contáctanos</h2>
+                <div class="contact-content">
+                    <div class="contact-form-wrapper">
+                        <h3>Envíanos un Mensaje</h3>
+                        <form class="contact-form" action="#" method="POST"> <label for="name">Nombre Completo</label>
+                            <input type="text" id="name" name="name" required>
+                            
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                            
+                            <label for="subject">Asunto</label>
+                            <input type="text" id="subject" name="subject" required>
+                            
+                            <label for="message">Tu Mensaje</label>
+                            <textarea id="message" name="message" required></textarea>
+                            
+                            <button type="submit">Enviar Mensaje</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Información de Contacto</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> 100 Main Street, Purchase, NY 10577, EE. UU.</p>
+                        <p><i class="fas fa-phone-alt"></i> +1 (914) 253-2000</p>
+                        <p><i class="fas fa-envelope"></i> info@pepsico.com</p>
+                        <div class="contact-map">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000.706320078235!2d-73.69389788458759!3d41.03796337929421!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c293796541f92b%3A0xf657e0f274a22283!2sPepsiCo!5e0!3m2!1ses!2sde!4v1678890000000!5m2!1ses!2sde" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <a href="#home" class="logo footer-nav-link">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/PepsiCo_logo.svg/2000px-PepsiCo_logo.svg.png" alt="PepsiCo Logo">
+                        </a>
+                        <p>Creando más sonrisas con cada sorbo y cada bocado.</p>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Explorar</h4>
+                        <ul>
+                            <li><a href="#featured-products" class="footer-nav-link">Novedades</a></li>
+                            <li><a href="#products-list" class="footer-nav-link">Productos</a></li>
+                            <li><a href="#contacto" class="footer-nav-link">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li><a href="#" data-page-id="privacidad">Privacidad</a></li>
+                            <li><a href="#" data-page-id="terminos">Términos de Uso</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Síguenos</h4>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/PepsiCo" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://twitter.com/PepsiCo" target="_blank" rel="noopener noreferrer" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/PepsiCo" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/company/pepsico" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    © 2025 PepsiCo. Proyecto de Portafolio.
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <div id="additional-pages-container">
+        <section id="noticia-pepsi" class="product-page product-page-news">
+            <div class="news-header" style="background-image: url('https://images.unsplash.com/photo-1623930376359-509531575ae7?q=80&w=1887');">
+                <div class="news-title-container"><h2>Pepsi Lanza su Nueva Campaña Global: "Zero Azúcar, Máximo Sabor"</h2></div>
+            </div>
+            <div class="news-content">
+                <div class="news-meta"><span><strong>Publicado:</strong> 12 Sep, 2025</span> <span><strong>Por:</strong> PepsiCo Marketing</span></div>
+                <div class="news-body"><p>Hoy marca un hito para Pepsi con el lanzamiento de su campaña más audaz hasta la fecha. "Zero Azúcar, Máximo Sabor" busca redefinir la experiencia de las bebidas sin azúcar, demostrando que no es necesario sacrificar el sabor para disfrutar de una opción más saludable...</p><p>La campaña incluye anuncios televisivos vibrantes, activaciones digitales interactivas y colaboraciones con influencers clave. PepsiCo invierte fuertemente en esta iniciativa para reforzar su compromiso con opciones de bebidas más variadas y saludables, sin comprometer la experiencia de sabor icónica de Pepsi.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div>
+            </div>
+        </section>
+        
+        <section id="noticia-lays" class="product-page product-page-news">
+            <div class="news-header" style="background-image: url('https://images.unsplash.com/photo-1613919113643-27c10b7d73d2?q=80&w=1887');">
+                <div class="news-title-container"><h2>Lay's Celebra sus Raíces con la Iniciativa "Cosechado con Corazón"</h2></div>
+            </div>
+            <div class="news-content">
+                <div class="news-meta"><span><strong>Publicado:</strong> 10 Sep, 2025</span> <span><strong>Por:</strong> Equipo de Lay's</span></div>
+                <div class="news-body"><p>Lay's rinde homenaje a los agricultores que hacen posible cada bolsa de papas. La nueva iniciativa, "Cosechado con Corazón", destaca las historias de las familias agricultoras y nuestro compromiso con la agricultura sostenible y de alta calidad. Desde el campo hasta tu mesa, Lay's asegura frescura y sabor.</p><p>Esta campaña busca conectar a los consumidores con el origen de sus snacks favoritos, promoviendo prácticas agrícolas responsables y apoyando a las comunidades locales. Se utilizarán empaques especiales y códigos QR para que los consumidores puedan conocer la historia detrás de sus papas.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div>
+            </div>
+        </section>
+        
+        <section id="noticia-gatorade" class="product-page product-page-news">
+            <div class="news-header" style="background-image: url('https://images.unsplash.com/photo-1551804368-7681f2a04a64?q=80&w=1887');">
+                 <div class="news-title-container"><h2>Gatorade Potencia a la Próxima Generación de Atletas con su Nuevo Ecosistema Gx</h2></div>
+            </div>
+            <div class="news-content">
+                <div class="news-meta"><span><strong>Publicado:</strong> 08 Sep, 2025</span> <span><strong>Por:</strong> Gatorade Sports Science Institute</span></div>
+                <div class="news-body"><p>Gatorade va más allá de la hidratación con el lanzamiento del ecosistema Gx, una plataforma innovadora que combina productos personalizables y tecnología de seguimiento para ayudar a cada atleta, amateur o profesional, a alcanzar su máximo potencial. Con Gx, la nutrición deportiva se vuelve a medida.</p><p>El sistema Gx incluye botellas personalizables, vainas de concentración de bebidas, parches de sudor que analizan los datos de hidratación y una aplicación móvil para seguimiento del rendimiento. Es el futuro de la hidratación y nutrición deportiva, diseñado para optimizar el rendimiento individual.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div>
+            </div>
+        </section>
+
+        <section id="noticia-doritos" class="product-page product-page-news">
+            <div class="news-header" style="background-image: url('https://images.unsplash.com/photo-1599442658887-1454c5a357f8?q=80&w=1887');">
+                 <div class="news-title-container"><h2>Doritos Desata la Fiebre del Gaming con el Torneo Internacional "Doritos Quest"</h2></div>
+            </div>
+            <div class="news-content">
+                <div class="news-meta"><span><strong>Publicado:</strong> 05 Sep, 2025</span> <span><strong>Por:</strong> Doritos Global</span></div>
+                <div class="news-body"><p>El snack más audaz se une al mundo de los eSports en el evento más grande del año. El torneo "Doritos Quest" reunirá a jugadores de todo el mundo para competir por la gloria, demostrando una vez más que Doritos es el combustible oficial de la victoria.</p><p>Con premios en efectivo, apariciones de streamers famosos y contenido exclusivo, Doritos busca consolidar su posición como el snack preferido de la comunidad gamer. Prepárate para la acción, la estrategia y, por supuesto, mucho sabor a Doritos.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div>
+            </div>
+        </section>
+        
+        <section id="noticia-quaker" class="product-page product-page-news">
+            <div class="news-header" style="background-image: url('https://images.unsplash.com/photo-1595295333158-4742f28fbd85?q=80&w=1980');">
+                 <div class="news-title-container"><h2>La Bondad Empieza Hoy: La Nueva Campaña de Quaker que Inspira Mañanas Saludables</h2></div>
+            </div>
+            <div class="news-content">
+                <div class="news-meta"><span><strong>Publicado:</strong> 02 Sep, 2025</span> <span><strong>Por:</strong> The Quaker Oats Company</span></div>
+                <div class="news-body"><p>Quaker lanza "La Bondad Empieza Hoy", una campaña enfocada en el poder de un desayuno nutritivo para transformar tu día. Con nuevas recetas, productos y consejos, Quaker reafirma su compromiso con el bienestar de las familias en todo el mundo.</p><p>La campaña destaca la versatilidad de la avena y sus beneficios para la salud, invitando a las personas a incorporar hábitos alimenticios más conscientes. Únete a Quaker y descubre cómo un buen desayuno puede cambiar tu perspectiva.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div>
+            </div>
+        </section>
+
+        <section id="producto-pepsi" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/hK4B51j/pepsi-can.png" alt="Lata de Pepsi"></div><div class="product-page-description"><h2>Pepsi</h2><span class="tagline">Refrescante e icónica</span><p>Pepsi es una bebida carbonatada que ha deleitado a generaciones con su sabor único y efervescente. Es el compañero perfecto para cualquier ocasión, ya sea una comida familiar, una fiesta con amigos o simplemente para refrescarte en un día caluroso. Con su burbujeante esencia y su inconfundible sabor, Pepsi se ha consolidado como un ícono de la cultura pop global.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="producto-lays" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/5MGk1xS/lays-bag.png" alt="Bolsa de Lay's"></div><div class="product-page-description"><h2>Lay's</h2><span class="tagline">El sabor clásico de las papas</span><p>Lay's es una de las marcas de snacks más reconocidas a nivel mundial. Con su crujiente textura y su variedad de sabores, desde el original hasta opciones más exóticas, son el aperitivo perfecto para compartir o disfrutar en solitario. Cada papa es cuidadosamente seleccionada y preparada para garantizar la máxima calidad y sabor en cada mordisco.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="producto-gatorade" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/L9jM11q/gatorade-bottle.png" alt="Botella de Gatorade"></div><div class="product-page-description"><h2>Gatorade</h2><span class="tagline">Rehidrata y repone</span><p>Gatorade es la bebida deportiva líder, diseñada para rehidratar, reponer electrolitos y energizar. Su fórmula avanzada ayuda a los atletas a mantener su rendimiento durante entrenamientos intensos y competiciones. Es la elección de los profesionales y de aquellos que buscan maximizar su potencial físico.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="producto-doritos" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/8Yj0gVw/doritos-bag.png" alt="Bolsa de Doritos"></div><div class="product-page-description"><h2>Doritos</h2><span class="tagline">Snack audaz y crujiente</span><p>Doritos es el snack para los amantes de la audacia. Sus crujientes chips de tortilla con sabores intensos y atrevidos lo han convertido en un ícono de cualquier reunión, fiesta o sesión de gaming. Experimenta una explosión de sabor con cada triangulito y déjate llevar por la intensidad.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="producto-quaker" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/sW2hP5x/quaker-oats.png" alt="Caja de Quaker Oats"></div><div class="product-page-description"><h2>Quaker</h2><span class="tagline">Nutrición natural con avena</span><p>Quaker es sinónimo de nutrición y bienestar. Con una historia centrada en la avena, sus productos ofrecen un desayuno saludable y una fuente de energía natural para empezar el día con vitalidad. Desde avena instantánea hasta barras de cereal, Quaker se compromete a brindarte opciones nutritivas y deliciosas.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="cheetos" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/yQd4kSg/cheetos-bag.png" alt="Bolsa de Cheetos"></div><div class="product-page-description"><h2>Cheetos</h2><span class="tagline">La diversión hecha snack</span><p>El snack de queso horneado que es imposible de comer sin sonreír. Su sabor inconfundible y textura crujiente lo hacen el favorito de todos, desde los más pequeños hasta los adultos. ¡Prepárate para ensuciarte los dedos con la diversión anaranjada de Cheetos!</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="tropicana" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/R4g7z3x/tropicana-carton.png" alt="Envase de Tropicana"></div><div class="product-page-description"><h2>Tropicana</h2><span class="tagline">Jugo 100% puro y natural</span><p>El sabor del sol en un vaso. Tropicana ofrece jugo de naranja 100% exprimido, sin azúcares añadidos, para un desayuno lleno de vitalidad. Disfruta de la frescura natural de la fruta en cada sorbo y siente la energía que solo Tropicana puede ofrecer.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="7up" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/k2V3kC7/7up-can.png" alt="Lata de 7UP"></div><div class="product-page-description"><h2>7UP</h2><span class="tagline">El refresco lima-limón</span><p>Claro, limpio y refrescante. 7UP es la bebida con sabor a lima-limón que revitaliza tus sentidos con sus burbujas y sabor nítido. Es la elección perfecta para acompañar tus comidas o simplemente para disfrutar de un momento de pura frescura.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="lipton" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/hLq0s9B/lipton-bottle.png" alt="Botella de Lipton Ice Tea"></div><div class="product-page-description"><h2>Lipton</h2><span class="tagline">Té helado y delicioso</span><p>Disfruta de una ola de frescura con Lipton Ice Tea. Hecho con hojas de té reales para un sabor suave y revitalizante en cualquier momento del día. Perfecto para un almuerzo ligero o para rehidratarte después de una actividad al aire libre.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="aquafina" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/GtncW5G/aquafina-bottle.png" alt="Botella de Aquafina"></div><div class="product-page-description"><h2>Aquafina</h2><span class="tagline">Agua purificada para tu día</span><p>La pureza en cada gota. Aquafina se somete a un riguroso proceso de purificación para ofrecer un agua fresca, limpia y perfecta para tu hidratación diaria. Confía en Aquafina para mantenerte fresco y energizado durante todo el día.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="mountaindew" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/dGtC0jK/mountaindew-can.png" alt="Lata de Mountain Dew"></div><div class="product-page-description"><h2>Mtn Dew</h2><span class="tagline">Do the Dew</span><p>Atrévete a probar el sabor cítrico y audaz de Mountain Dew. La bebida que te da el impulso de energía y la actitud para enfrentar cualquier desafío. Su sabor único y su color vibrante la hacen inconfundible. ¡Es la chispa que necesitas para tus aventuras!</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        <section id="starbucks" class="product-page product-page-standard"><div class="container product-page-layout"><div class="product-page-image"><img src="https://i.ibb.co/k3kC5g6/starbucks-bottle.png" alt="Botella de Starbucks Frappuccino"></div><div class="product-page-description"><h2>Starbucks</h2><span class="tagline">Tu café para llevar</span><p>Disfruta de tu bebida Starbucks favorita en cualquier lugar. El Frappuccino embotellado te ofrece la mezcla perfecta de café y leche, lista para beber en cualquier momento y lugar. La calidad y el sabor inconfundible de Starbucks, ahora a tu alcance.</p><a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a></div></div></section>
+        
+        <section id="privacidad" class="product-page page-content-wrapper">
+            <div class="container">
+                <h1>Política de Privacidad</h1>
+                <p>En PepsiCo, nos tomamos muy en serio la privacidad de nuestros usuarios. Esta política describe cómo recopilamos, usamos y protegemos su información personal.</p>
+                
+                <h2>Información que Recopilamos</h2>
+                <p>Podemos recopilar información personal como su nombre, dirección de correo electrónico, número de teléfono y otra información relevante que nos proporcione voluntariamente al interactuar con nuestro sitio, como al llenar formularios de contacto o suscribirse a boletines.</p>
+                
+                <h2>Uso de la Información</h2>
+                <p>La información recopilada se utiliza para:</p>
+                <ul>
+                    <li>Responder a sus consultas y solicitudes.</li>
+                    <li>Mejorar nuestros productos y servicios.</li>
+                    <li>Enviar comunicaciones de marketing (si ha dado su consentimiento).</li>
+                    <li>Cumplir con nuestras obligaciones legales.</li>
+                </ul>
+                
+                <h2>Compartir Información</h2>
+                <p>No vendemos ni alquilamos su información personal a terceros. Podemos compartir su información con proveedores de servicios de confianza que nos ayudan a operar nuestro negocio, siempre bajo estrictos acuerdos de confidencialidad.</p>
+                
+                <h2>Seguridad de los Datos</h2>
+                <p>Implementamos medidas de seguridad técnicas y organizativas para proteger su información personal contra el acceso no autorizado, la divulgación, la alteración o la destrucción.</p>
+                
+                <h2>Sus Derechos</h2>
+                <p>Tiene derecho a acceder, corregir o eliminar su información personal. Para ejercer estos derechos, por favor contáctenos a través de la sección de contacto.</p>
+                
+                <a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a>
+            </div>
+        </section>
+
+        <section id="terminos" class="product-page page-content-wrapper">
+            <div class="container">
+                <h1>Términos de Uso</h1>
+                <p>Bienvenido a PepsiCo. Al acceder y utilizar este sitio web, usted acepta cumplir y estar sujeto a los siguientes términos y condiciones de uso.</p>
+                
+                <h2>Aceptación de Términos</h2>
+                <p>Estos Términos de Uso ("Términos") rigen su acceso y uso de este sitio web. Si no está de acuerdo con alguna parte de estos Términos, no debe utilizar el sitio web.</p>
+                
+                <h2>Modificaciones</h2>
+                <p>Nos reservamos el derecho de modificar estos Términos en cualquier momento. Cualquier cambio será efectivo inmediatamente después de su publicación en el sitio web. Es su responsabilidad revisar periódicamente estos Términos para estar al tanto de las actualizaciones.</p>
+                
+                <h2>Uso del Contenido</h2>
+                <p>Todo el contenido de este sitio web, incluyendo textos, gráficos, logotipos, iconos, imágenes y software, es propiedad de PepsiCo o de sus proveedores de contenido y está protegido por leyes de derechos de autor y marcas registradas. Usted puede ver, descargar e imprimir páginas del sitio web para su uso personal y no comercial.</p>
+                
+                <h2>Conducta del Usuario</h2>
+                <p>Usted acepta no utilizar el sitio web para:</p>
+                <ul>
+                    <li>Actividades ilegales o no autorizadas.</li>
+                    <li>Violación de derechos de autor o propiedad intelectual.</li>
+                    <li>Transmisión de virus o código malicioso.</li>
+                    <li>Cualquier actividad que interfiera con el funcionamiento del sitio web.</li>
+                </ul>
+                
+                <h2>Limitación de Responsabilidad</h2>
+                <p>El sitio web se proporciona "tal cual" y "según disponibilidad". No garantizamos que el sitio web sea ininterrumpido o libre de errores. PepsiCo no será responsable de ningún daño directo, indirecto, incidental, consecuencial o punitivo que surja del uso o la incapacidad de usar este sitio web.</p>
+                
+                <h2>Ley Aplicable</h2>
+                <p>Estos Términos se regirán e interpretarán de acuerdo con las leyes del Estado de Nueva York, EE. UU., sin tener en cuenta sus principios de conflicto de leyes.</p>
+                
+                <a href="#" class="back-button"><i class="fas fa-arrow-left"></i> Volver</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pageTriggers = document.querySelectorAll('[data-page-id]');
+            const mainContent = document.getElementById('main-content');
+            const additionalPagesContainer = document.getElementById('additional-pages-container');
+            const backButtons = document.querySelectorAll('.back-button');
+            const header = document.querySelector('.header');
+            const navLinks = document.querySelectorAll('.main-nav-link, .footer-nav-link'); // Ambos tipos de enlaces de navegación
+
+            // Función para mostrar cualquier página individual
+            function showSpecificPage(pageId) {
+                const targetPage = document.getElementById(pageId);
+                if (!targetPage) {
+                    console.error("No se encontró la página con el id:", pageId);
+                    return;
+                }
+                mainContent.style.display = 'none';
+                additionalPagesContainer.style.display = 'block';
+                header.style.display = 'none'; // Oculta el header en páginas de detalle
+
+                document.querySelectorAll('.product-page').forEach(page => page.style.display = 'none');
+                targetPage.style.display = 'block';
+                window.scrollTo(0, 0); // Desplaza al inicio de la página
+            }
+
+            // Función para volver al contenido principal
+            function showMainContent() {
+                additionalPagesContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                header.style.display = 'block'; // Muestra el header de nuevo
+                window.scrollTo(0, 0); // Desplaza al inicio de la página principal
+            }
+
+            // Manejar clics en botones de producto/noticia y enlaces legales
+            pageTriggers.forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault(); // Previene la acción por defecto del enlace/botón
+                    const pageId = trigger.dataset.pageId;
+                    showSpecificPage(pageId);
+                });
+            });
+
+            // Manejar clics en el botón de "Volver"
+            backButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    showMainContent();
+                });
+            });
+
+            // Manejar clics en los enlaces de navegación principales (Header y Footer)
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetHash = this.getAttribute('href');
+                    
+                    if (targetHash.startsWith('#')) {
+                        showMainContent(); // Asegurarse de que el main content es visible
+                        // Pequeño delay para permitir que el main content se renderice antes de scroll
+                        setTimeout(() => {
+                            const targetSection = document.querySelector(targetHash);
+                            if (targetSection) {
+                                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }, 50); 
+                    } else {
+                        // Si es un enlace externo o diferente, maneja aquí
+                        window.location.href = targetHash;
+                    }
+                });
+            });
+
+
+            // --- Lógica para flechas del carrusel ---
+            const carousel = document.querySelector('.featured-carousel');
+            const leftArrow = document.getElementById('scroll-left');
+            const rightArrow = document.getElementById('scroll-right');
+
+            if (carousel) {
+                // Ajustamos el valor de desplazamiento para que sea el ancho de una tarjeta + su gap
+                // Suponiendo que el ancho de la tarjeta es 320px y el gap es 2rem (32px)
+                const scrollAmount = 320 + 32; 
+
+                leftArrow.addEventListener('click', () => {
+                    carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                });
+                rightArrow.addEventListener('click', () => {
+                    carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

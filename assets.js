@@ -44,8 +44,8 @@ export const services = [
 ];
 
 export const portfolio = [
-    { url: 'project-cafe-origen.html', image: 'https://placehold.co/600x400/1D263B/FBFBFB?text=Café Origen', title: 'Branding para Café Origen', category: 'Branding' },
-    { url: '#', image: 'https://placehold.co/600x400/0057FF/FFFFFF?text=App Financiera', title: 'UX/UI App de Gestión Financiera', category: 'Diseño UX/UI' },
+    { url: 'project-cafe-origen.html', image: './Cafe Origen/Uniforme.png', title: 'Branding para Café Origen', category: 'Branding' },
+    { url: 'project-app-financiera.html', image: './App Financiera/Portada.png', title: 'UX/UI App de Gestión Financiera', category: 'Diseño UX/UI' },
     { url: '#', image: 'https://placehold.co/600x400/8A8A8E/FFFFFF?text=Arquitectura', title: 'Visualización Arquitectónica', category: 'Visualización 3D' },
     { url: '#', image: 'https://placehold.co/600x400/FBFBFB/1D263B?text=Rediseño Web', title: 'Rediseño Web para Start-up', category: 'Diseño Web' },
     { url: '#', image: 'https://placehold.co/600x400/1D263B/FBFBFB?text=Café Origen', title: 'Branding para Café Origen', category: 'Branding' },
